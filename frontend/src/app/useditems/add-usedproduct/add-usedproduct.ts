@@ -26,7 +26,7 @@ export class AddUsedproductComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.http.get('http://localhost:4000/api/products',{ headers: this.auth.getAuthHeaders() }).subscribe((res: any) => {
+    this.http.get('https://inventory-check-i5tp.onrender.com/api/products',{ headers: this.auth.getAuthHeaders() }).subscribe((res: any) => {
       this.products = res;
     });
   }
