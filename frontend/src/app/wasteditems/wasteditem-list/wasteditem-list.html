@@ -1,0 +1,113 @@
+<div class="container">
+  <h2 class="title">♻️ Wasted Items</h2>
+    <div class="header-buttons">
+      <button [routerLink]="['/challans']" class="btn secondary">Challans List</button>
+      <button [routerLink]="['/quotations']" class="btn secondary">Quotations List</button>
+      <button [routerLink]="['/supplier-list']" class="btn secondary">Suppliers List</button>
+      <button [routerLink]="['/products']" class="btn secondary">Products</button>
+      <button [routerLink]="['/used-items']" class="btn secondary">Used Items</button>
+      <button [routerLink]="['/invoices']" class="btn secondary">Invoices</button>
+      <button [routerLink]="['/purchases']" class="btn secondary">Purchases</button>
+      <button class="btn primary" (click)="addWastedProduct()">➕ Add Wasted Product</button>
+    </div>
+
+
+  <!-- 🔍 Search -->
+  <input
+    type="text"
+    class="search-box"
+    placeholder="🔍 Search by product..."
+    [(ngModel)]="searchTerm"
+    (input)="applyFilters()"
+  />
+
+  <!-- 🎯 Category filters -->
+  <div class="filters">
+    <label *ngFor="let cat of categories" class="chip">
+      <input
+        type="checkbox"
+        [checked]="selectedCategories.includes(cat)"
+        (change)="toggleCategory(cat)"
+      />
+      {{ cat }}
+    </label>
+  </div>
+
+  <!-- ↕ Sort controls -->
+  <div class="sort-row">
+    <select class="select-box" [(ngModel)]="sortField" (change)="applyFilters()">
+      <option value="">Sort by...</option>
+      <option value="qty">Quantity</option>
+      <option value="date">Date</option>
+      <option value="category">Category</option>
+    </select>
+
+    <select class="select-box" [(ngModel)]="sortDirection" (change)="applyFilters()">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <!-- 📄 Items per page -->
+  <label class="per-page">
+    Items per page:
+    <select class="select-box" [(ngModel)]="itemsPerPage" (change)="applyFilters()">
+      <option [ngValue]="5">5</option>
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="25">25</option>
+      <option [ngValue]="50">50</option>
+    </select>
+  </label>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Wasted Qty</th>
+          <th>Date</th>
+          <th class="actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of filteredItems | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; trackBy: trackById"
+        >
+          <!-- product (read-only) -->
+          <td>{{ item.product?.itemName }}</td>
+
+          <!-- category -->
+          <td *ngIf="editingItemId !== item._id">{{ item.category }}</td>
+          <td *ngIf="editingItemId === item._id">
+            <input [(ngModel)]="item.category" />
+          </td>
+
+          <!-- qty -->
+          <td *ngIf="editingItemId !== item._id">{{ item.wastedQty }}</td>
+          <td *ngIf="editingItemId === item._id">
+            <input type="number" [(ngModel)]="item.wastedQty" />
+          </td>
+
+          <!-- date (read-only) -->
+          <td>{{ item.date | date }}</td>
+
+          <!-- actions -->
+          <td class="actions">
+            <button *ngIf="editingItemId !== item._id" class="btn update" (click)="startEdit(item)">✏️ Update</button>
+            <button *ngIf="editingItemId !== item._id" class="btn delete" (click)="deleteItem(item._id)">🗑 Delete</button>
+
+            <button *ngIf="editingItemId === item._id" class="btn save" (click)="saveEdit(item)">💾 Save</button>
+            <button *ngIf="editingItemId === item._id" class="btn cancel" (click)="cancelEdit()">❌ Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- pagination controls -->
+  <div class="pagination">
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>

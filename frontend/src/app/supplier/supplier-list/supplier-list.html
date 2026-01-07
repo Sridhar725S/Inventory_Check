@@ -1,0 +1,97 @@
+<div class="container">
+  <h2 class="title">📦 Supplier List</h2>
+   <div class="header-buttons">
+      <button [routerLink]="['/challans']" class="btn secondary">Challans List</button>
+      <button [routerLink]="['/quotations']" class="btn secondary">Quotations List</button>
+      <button [routerLink]="['/wasted-items']" class="btn secondary">Wasted Items</button>
+      <button [routerLink]="['/used-items']" class="btn secondary">Used Items</button>
+      <button [routerLink]="['/invoices']" class="btn secondary">Invoices</button>
+      <button [routerLink]="['/purchases']" class="btn secondary">Purchases</button>
+      <button [routerLink]="['/products']" class="btn secondary">Products</button>
+    </div>
+
+  <!-- Search box -->
+  <div class="toolbar">
+    <input
+      type="text"
+      placeholder="🔍 Search by name or contact..."
+      [(ngModel)]="searchTerm"
+      class="search-box"
+      (input)="page = 1"
+    />
+
+    <!-- Items per page -->
+    <label class="per-page">
+      Show
+      <select [(ngModel)]="itemsPerPage" (change)="page = 1">
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="25">25</option>
+        <option [ngValue]="50">50</option>
+      </select>
+      entries
+    </label>
+  </div>
+
+  <div *ngIf="loading" class="loading">⏳ Loading suppliers...</div>
+
+  <div class="table-wrapper" *ngIf="!loading && filteredSuppliers.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>GST No.</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let supplier of filteredSuppliers | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; trackBy: trackById"
+        >
+          <!-- Normal mode -->
+          <ng-container *ngIf="editSupplierId !== supplier._id; else editRow">
+            <td>{{ supplier.name }}</td>
+            <td>{{ supplier.contact }}</td>
+            <td>{{ supplier.gstNo }}</td>
+            <td>
+              <button class="btn update" (click)="startEdit(supplier)">
+                ✏️ Update
+              </button>
+              <button class="btn delete" (click)="deleteSupplier(supplier._id)">
+                🗑 Delete
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Edit mode -->
+          <ng-template #editRow>
+            <td><input [(ngModel)]="editData.name" /></td>
+            <td><input [(ngModel)]="editData.contact" /></td>
+            <td><input [(ngModel)]="editData.gstNo" /></td>
+            <td>
+              <button class="btn save" (click)="saveUpdate(supplier._id)">
+                💾 Save
+              </button>
+              <button class="btn cancel" (click)="cancelEdit()">
+                ❌ Cancel
+              </button>
+            </td>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination controls -->
+  <div class="pagination">
+    <pagination-controls
+      *ngIf="filteredSuppliers.length > itemsPerPage"
+      (pageChange)="page = $event"
+    ></pagination-controls>
+  </div>
+
+  <p *ngIf="!loading && filteredSuppliers.length === 0" class="no-data">
+    🚫 No suppliers found.
+  </p>
+</div>

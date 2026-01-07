@@ -1,0 +1,139 @@
+.form-wrapper {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.08);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-header h2 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+}
+
+.form-header p {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #34495e;
+}
+
+input, select {
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s ease;
+  font-size: 1rem;
+}
+
+input:focus, select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52,152,219,0.15);
+}
+
+.info-card {
+  background: #f4f9ff;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  border-left: 4px solid #3498db;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.btn.primary {
+  background: #3498db;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #2980b9;
+}
+
+.btn.secondary {
+  background: #ecf0f1;
+  color: #2c3e50;
+}
+
+.btn.secondary:hover {
+  background: #bdc3c7;
+}
+
+.btn.back {
+  background-color: #4CAF50; /* fresh green */
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none; /* in case routerLink renders as <a> */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn.back:hover {
+  background-color: #45a049; /* darker green on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn.back:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn.back:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(72, 239, 128, 0.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}

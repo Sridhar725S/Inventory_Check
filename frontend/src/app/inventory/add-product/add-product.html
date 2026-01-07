@@ -1,0 +1,58 @@
+<div class="add-product-wrapper">
+
+  <div class="form-card">
+    <h2>Add Product</h2>
+    <button [routerLink]="['/products']" class="btn back">Back</button>
+    <div class="form-group">
+      <label>Item Name</label>
+      <input placeholder="Item Name" [(ngModel)]="product.itemName">
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select [(ngModel)]="product.category">
+        <option *ngFor="let c of categories">{{c}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Quantity</label>
+      <input type="number" placeholder="Quantity" [(ngModel)]="product.qty">
+    </div>
+
+    <div class="form-group">
+      <label>Rate</label>
+      <input type="number" placeholder="Rate" [(ngModel)]="product.rate">
+    </div>
+
+    <div class="form-group">
+      <label>Minimum Quantity</label>
+      <input type="number" placeholder="Minimum Quantity" [(ngModel)]="product.minQty">
+    </div>
+
+      <!-- 🆕 Added Place -->
+    <div class="form-group">
+      <label>Place / Location</label>
+      <input placeholder="e.g. Shelf A1 or Lab Room 3" [(ngModel)]="product.place">
+    </div>
+
+    <button class="btn primary" (click)="save()">Save Product</button>
+  </div>
+
+  <!-- Barcode Preview -->
+  <div *ngIf="savedProduct" class="barcode-card">
+    <h3>Barcode Preview</h3>
+    <div class="barcode-container">
+      <div class="barcode-label">
+      <strong>{{ savedProduct.itemName }}</strong>
+    </div>
+    <ngx-barcode6
+      [bc-format]="'EAN13'"
+      [bc-value]="savedProduct.code"
+      [bc-display-value]="true">
+    </ngx-barcode6>
+    </div>
+    <button class="btn secondary" (click)="printBarcode()">Print Barcode</button>
+  </div>
+
+</div>

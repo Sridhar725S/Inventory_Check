@@ -1,0 +1,61 @@
+<div class="q-list">
+  <div class="header">
+    <h2>Quotations</h2>
+     <div class="header-buttons">
+      <button [routerLink]="['/challans']" class="btn secondary">Challans List</button>
+      <button [routerLink]="['/supplier-list']" class="btn secondary">Suppliers List</button>
+      <button [routerLink]="['/wasted-items']" class="btn secondary">Wasted Items</button>
+      <button [routerLink]="['/used-items']" class="btn secondary">Used Items</button>
+      <button [routerLink]="['/invoices']" class="btn secondary">Invoices</button>
+      <button [routerLink]="['/purchases']" class="btn secondary">Purchases</button>
+      <button [routerLink]="['/products']" class="btn secondary">Products</button>
+    <button class="primary" (click)="add()">+ New Quotation</button>
+     </div>
+  </div>
+
+  <div class="filters">
+    <input type="text" placeholder="Search by customer/email..." [(ngModel)]="search" (input)="onSearch()" />
+    <label>
+      Per page:
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let s of pageSizes" [ngValue]="s">{{ s }}</option>
+      </select>
+    </label>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <table *ngIf="!loading && quotations.length" class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Grand Total</th>
+        <th>Date</th>
+        <th>Items</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let q of quotations | paginate: { itemsPerPage: pageSize, currentPage: page }">
+        <td>{{ q.quotationNo }}</td>
+        <td>{{ q.customerName }}</td>
+        <td>{{ q.customerEmail }}</td>
+        <td>{{ q.grandTotal | currency:'INR' }}</td>
+        <td>{{ q.date | date:'mediumDate' }}</td>
+        <td>{{ q.items?.length || 0 }}</td>
+        <td class="actions">
+          <button class="btn download" (click)="download(q)">Download</button>
+          <button class="btn edit" (click)="edit(q)">Edit</button>
+          <button class="btn danger" (click)="del(q)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+  <p *ngIf="!loading && !quotations.length" class="empty">No quotations found.</p>
+
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  </div>
+</div>

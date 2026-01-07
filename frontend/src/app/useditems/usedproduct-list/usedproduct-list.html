@@ -1,0 +1,109 @@
+<div class="used-products-container">
+  <div class="header">
+    <h2>📦 Used Products</h2>
+        <div class="header-buttons">
+      <button [routerLink]="['/challans']" class="btn secondary">Challans List</button>
+      <button [routerLink]="['/quotations']" class="btn secondary">Quotations List</button>
+      <button [routerLink]="['/supplier-list']" class="btn secondary">Suppliers List</button>
+      <button [routerLink]="['/products']" class="btn secondary">Products</button>
+      <button [routerLink]="['/wasted-items']" class="btn secondary">Wasted Items</button>
+      <button [routerLink]="['/invoices']" class="btn secondary">Invoices</button>
+      <button [routerLink]="['/purchases']" class="btn secondary">Purchases</button>
+      <button class="btn primary" (click)="addUsedProduct()">+ Add Used Product</button>
+    </div>
+  </div>
+
+
+  <!-- Filters -->
+  <div class="filters">
+    <!-- Search -->
+    <input
+      type="text"
+      class="search-input"
+      placeholder="🔍 Search by product name..."
+      [(ngModel)]="searchTerm"
+      (input)="applyFilters()"
+    />
+
+    <!-- Category Filter -->
+    <div class="categories">
+      <label *ngFor="let cat of ['sensor','module','microcontroller']">
+        <input
+          type="checkbox"
+          (change)="toggleCategory(cat)"
+          [checked]="selectedCategories.includes(cat)"
+        />
+        {{ cat | titlecase }}
+      </label>
+    </div>
+
+    <!-- Sorting -->
+    <div class="sort-buttons">
+      <button class="btn-secondary" (click)="changeSort('asc')">Qty ↑</button>
+      <button class="btn-secondary" (click)="changeSort('desc')">Qty ↓</button>
+    </div>
+
+    <!-- Page Size -->
+    <div class="page-size">
+      <label>Per Page: </label>
+      <select (change)="changePageSize($event)">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Qty</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let u of filteredItems | paginate: { itemsPerPage: pageSize, currentPage: page }; let i = index"
+        >
+          <!-- Inline Edit -->
+          <td *ngIf="editIndex !== i">{{ u.product?.itemName }}</td>
+          <td *ngIf="editIndex === i">
+            <input [(ngModel)]="editData.product.itemName" />
+          </td>
+
+          <td *ngIf="editIndex !== i">{{ u.category }}</td>
+          <td *ngIf="editIndex === i">
+            <input [(ngModel)]="editData.category" />
+          </td>
+
+          <td *ngIf="editIndex !== i">{{ u.qty }}</td>
+          <td *ngIf="editIndex === i">
+            <input type="number" [(ngModel)]="editData.qty" />
+          </td>
+
+          <td class="actions">
+            <ng-container *ngIf="editIndex !== i">
+              <button class="btn-edit" (click)="enableEdit(i, u)">✏️ Edit</button>
+              <button class="btn-delete" (click)="deleteUsedProduct(u._id)">🗑 Delete</button>
+            </ng-container>
+            <ng-container *ngIf="editIndex === i">
+              <button class="btn-save" (click)="saveEdit(u)">💾 Save</button>
+              <button class="btn-cancel" (click)="cancelEdit()">❌ Cancel</button>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <pagination-controls
+    (pageChange)="page = $event"
+    class="pagination"
+  ></pagination-controls>
+</div>

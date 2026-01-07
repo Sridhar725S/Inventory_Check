@@ -1,0 +1,71 @@
+<div class="add-purchase-wrapper">
+  <button [routerLink]="['/purchases']" class="btn back">Back</button>
+  <div class="form-card">
+    <h2>Add Purchase</h2>
+
+    <!-- Supplier Form Toggle -->
+    <button class="btn secondary toggle-btn" (click)="showSupplierForm = !showSupplierForm">
+      {{ showSupplierForm ? 'Cancel' : 'Add Supplier' }}
+    </button>
+
+    <div *ngIf="showSupplierForm" class="supplier-form">
+      <h3>Add Supplier</h3>
+      <div class="form-group">
+        <input [(ngModel)]="newSupplier.name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <input [(ngModel)]="newSupplier.contact" placeholder="Contact">
+      </div>
+      <div class="form-group">
+        <input [(ngModel)]="newSupplier.address" placeholder="Address">
+      </div>
+      <div class="form-group">
+        <input [(ngModel)]="newSupplier.gstNo" placeholder="GST Number">
+      </div>
+      <button class="btn primary" (click)="addSupplier()">Save Supplier</button>
+    </div>
+
+    <!-- Purchase Form -->
+    <div class="form-group">
+      <label>Supplier:</label>
+      <select [(ngModel)]="purchase.supplierId">
+        <option *ngFor="let s of suppliers" [value]="s._id">{{s.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Invoice Date:</label>
+      <input type="date" [(ngModel)]="purchase.invoiceDate">
+    </div>
+
+    <!-- Products -->
+    <div class="products-wrapper" *ngFor="let p of purchase.products; let i = index">
+      <div class="product-row">
+        <div class="form-group">
+          <label>Product:</label>
+          <select [(ngModel)]="p.productId">
+            <option *ngFor="let prod of allProducts" [value]="prod._id">{{prod.itemName}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Quantity:</label>
+          <input type="number" [(ngModel)]="p.qty" placeholder="Quantity">
+        </div>
+        <div class="form-group">
+          <label>Purchase Price:</label>
+          <input type="number" [(ngModel)]="p.purchasePrice" placeholder="Purchase Price">
+        </div>
+        <div class="form-group">
+          <label>Sell Price:</label>
+          <input type="number" [(ngModel)]="p.sellPrice" placeholder="Sell Price">
+        </div>
+        <button class="btn secondary remove-btn" (click)="removeProduct(i)">Remove</button>
+      </div>
+    </div>
+
+    <button class="btn secondary add-btn" (click)="addProduct()">Add Product</button>
+    <button class="btn primary save-btn" (click)="save()">Save Purchase</button>
+
+  </div>
+
+</div>

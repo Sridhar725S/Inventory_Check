@@ -1,0 +1,25 @@
+<div class="container">
+  <button [routerLink]="['/wasted-items']" class="btn back">Back</button>
+
+  <h2>Add Wasted Item</h2>
+
+  <form (ngSubmit)="addItem()">
+    <label for="product">Product</label>
+    <select id="product" (change)="onProductChange($event)">
+      <option value="">-- Select Product --</option>
+      <option *ngFor="let p of products" [value]="p._id">
+        {{ p.itemName }} (Qty: {{ p.qty }})
+      </option>
+    </select>
+
+    <div *ngIf="selectedProduct">
+      <p><strong>Category:</strong> {{ selectedProduct.category }}</p>
+      <p><strong>Available Qty:</strong> {{ selectedProduct.qty }}</p>
+    </div>
+
+    <label for="wastedQty">Wasted Quantity</label>
+    <input id="wastedQty" type="number" [(ngModel)]="wastedQty" name="wastedQty" />
+
+    <button type="submit">Add</button>
+  </form>
+</div>

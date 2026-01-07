@@ -1,0 +1,71 @@
+<div class="challan-list">
+  <!-- Header -->
+  <div class="header">
+    <h2>📦 Delivery Challans</h2>
+    <div class="header-buttons">
+      <button [routerLink]="['/quotations']" class="btn secondary">Quotations List</button>
+      <button [routerLink]="['/supplier-list']" class="btn secondary">Suppliers List</button>
+      <button [routerLink]="['/wasted-items']" class="btn secondary">Wasted Items</button>
+      <button [routerLink]="['/used-items']" class="btn secondary">Used Items</button>
+      <button [routerLink]="['/invoices']" class="btn secondary">Invoices</button>
+      <button [routerLink]="['/purchases']" class="btn secondary">Purchases</button>
+      <button [routerLink]="['/products']" class="btn secondary">Products</button>
+    <button class="primary-btn" (click)="add()">+ New Challan</button>
+    </div>
+  </div>
+
+  <!-- Search + Controls -->
+  <div class="controls">
+    <input 
+      class="search-input"
+      type="text"
+      placeholder="🔍 Search by challan no"
+      [(ngModel)]="search"
+      (input)="onSearch()" 
+    />
+
+    <div class="per-page">
+      <label>Per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let s of pageSizes" [ngValue]="s">{{ s }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="loading">Loading challans...</div>
+
+  <!-- Table -->
+  <div class="table-wrapper" *ngIf="!loading && challans.length">
+    <table class="list-table">
+      <thead>
+        <tr>
+          <th>Challan No</th>
+          <th>Date</th>
+          <th>Items</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of challans | paginate: { itemsPerPage: pageSize, currentPage: page }">
+          <td>{{ c.challanNo }}</td>
+          <td>{{ c.date | date:'shortDate' }}</td>
+          <td>{{ c.items?.length || 0 }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="edit(c)">✏️ Edit</button>
+            <button class="download-btn" (click)="download(c)">⬇️ Download</button>
+            <button class="delete-btn" (click)="del(c)">🗑 Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No Data -->
+  <p class="no-data" *ngIf="!loading && !challans.length">No challans found.</p>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  </div>
+</div>

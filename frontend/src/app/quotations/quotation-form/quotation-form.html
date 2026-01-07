@@ -1,0 +1,107 @@
+<div class="quotation-container">
+
+  <div class="quotation-card">
+        <button [routerLink]="['/quotations']" class="btn back">Back</button>
+
+    <h2 class="title">
+      {{ isEdit ? 'Edit Quotation' : 'Create Quotation' }}
+    </h2>
+
+    <!-- Customer Details -->
+    <div class="form-section">
+      <h3>Customer Details</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Customer Name</label>
+          <input type="text" [(ngModel)]="quotation.customerName" placeholder="Enter customer name" required />
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="quotation.customerEmail" placeholder="customer@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" [(ngModel)]="quotation.customerPhone" placeholder="+91 9876543210" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Items -->
+    <div class="form-section">
+      <h3>Items</h3>
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price (₹)</th>
+            <th>Line Total (₹)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of quotation.items; let i = index">
+            <td>
+              <select [(ngModel)]="item.product" name="product-{{i}}" (change)="onProductChange(i)">
+                <option value="">-- Select Product --</option>
+                <option *ngFor="let p of products" [value]="p._id">{{ p.itemName }}</option>
+              </select>
+            </td>
+
+            <td>
+              <input type="number" [(ngModel)]="item.qty" name="qty-{{i}}" (input)="calculateItem(i)" />
+            </td>
+
+            <td>
+              <input type="number" [(ngModel)]="item.price" name="price-{{i}}" readonly />
+            </td>
+
+            <td class="rupee">{{ item.lineTotal | currency:'INR':'symbol-narrow' }}</td>
+
+            <td>
+              <button type="button" class="remove-btn" (click)="removeItem(i)">✕</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="add-btn" (click)="addItem()">+ Add Item</button>
+    </div>
+
+    <!-- Discount and Totals -->
+    <div class="form-section totals">
+      <div class="form-group-inline">
+        <label>Discount (%)</label>
+        <input type="number" min="0" max="100" [(ngModel)]="quotation.discountPercent" (input)="recalcAll()" />
+      </div>
+
+      <div class="totals-box">
+        <p>Subtotal: <span class="rupee">{{ quotation.subtotal | currency:'INR':'symbol-narrow' }}</span></p>
+        <p>Discount: <span class="rupee">{{ quotation.discountAmount | currency:'INR':'symbol-narrow' }}</span></p>
+        <h3>Grand Total: <span class="rupee highlight">{{ quotation.grandTotal | currency:'INR':'symbol-narrow' }}</span></h3>
+      </div>
+    </div>
+
+    <!-- Extra Details -->
+    <div class="form-section">
+      <div class="form-group-inline">
+        <label>Validity (days)</label>
+        <input type="number" min="1" [(ngModel)]="quotation.validityDays" />
+      </div>
+
+      <div class="form-group">
+        <label>Notes / Terms</label>
+        <textarea rows="3" [(ngModel)]="quotation.notes" placeholder="Payment terms, delivery, warranty, etc."></textarea>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn primary" (click)="save()">
+        {{ isEdit ? 'Update Quotation' : 'Save Quotation' }}
+      </button>
+      <a routerLink="/quotations" class="btn secondary">Cancel</a>
+    </div>
+  </div>
+</div>

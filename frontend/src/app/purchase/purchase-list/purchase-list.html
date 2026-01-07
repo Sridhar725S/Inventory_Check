@@ -1,0 +1,149 @@
+<div class="dashboard-wrapper">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Purchase List</h1>
+    <div class="actions">
+      <button [routerLink]="['/challans']" class="btn secondary">Challans List</button>
+      <button [routerLink]="['/quotations']" class="btn secondary">Quotations List</button>
+      <button [routerLink]="['/supplier-list']" class="btn secondary">Suppliers List</button>
+      <button [routerLink]="['/wasted-items']" class="btn secondary">Wasted Items</button>
+      <button [routerLink]="['/used-items']" class="btn secondary">Used Items</button>
+      <button [routerLink]="['/products']" class="btn secondary">Products</button>
+      <button [routerLink]="['/invoices']" class="btn secondary">Invoices</button>
+      <button (click)="addPurchase()" class="btn primary">Add Purchase</button>
+    </div>
+  </div>
+  <div class="summary">
+      <span>Total Purchases: {{ filteredPurchases.length }}</span>
+      <span>Total Amount: {{ totalAmount | currency:'INR' }}</span>
+    </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      placeholder="🔍 Search supplier or product" 
+      [(ngModel)]="searchText" 
+      (input)="applyFilters()" />
+
+    <!-- 📅 Date Filter -->
+<div class="date-filter">
+  <label for="dateRange">Filter by:</label>
+  <select id="dateRange" [(ngModel)]="selectedRange" (change)="applyFilters()">
+    <option *ngFor="let option of dateOptions" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+
+  <!-- Show custom range datepickers only if "custom" selected -->
+  <div *ngIf="selectedRange === 'custom'" class="custom-range">
+    <input type="date" [(ngModel)]="customStart" (change)="applyFilters()">
+    <span>to</span>
+    <input type="date" [(ngModel)]="customEnd" (change)="applyFilters()">
+  </div>
+  </div>
+
+    <select [(ngModel)]="sortBy" (change)="applyFilters()">
+      <option value="">Sort By</option>
+      <option value="dateAsc">Purchase Date ↑</option>
+      <option value="dateDesc">Purchase Date ↓</option>
+      <option value="valueAsc">Total Value ↑</option>
+      <option value="valueDesc">Total Value ↓</option>
+    </select>
+  </div>
+
+    <!-- Items per page dropdown -->
+  <div class="pagination-settings">
+    <label for="itemsPerPage">Items per page:</label>
+    <select id="itemsPerPage" [(ngModel)]="itemsPerPage">
+      <option *ngFor="let size of pageSizes" [value]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <table>
+  <thead>
+    <tr>
+      <th>Purchase Date</th>
+      <th>Supplier Name</th>
+      <th>Total Value</th>
+      <th>Products</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of filteredPurchases | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+
+  <!-- If editing this row -->
+  <ng-container *ngIf="editingId === p._id; else viewRow">
+    <td>
+      <input type="date" [(ngModel)]="p.invoiceDate">
+    </td>
+    <td>
+      <!-- supplier name read-only -->
+      <span>{{ p.supplierId?.name }}</span>
+    </td>
+    <td>{{ p.totalValue | currency:'INR' }}</td>
+    <td>
+      <ul class="product-list">
+        <li *ngFor="let prod of p.products">
+          <!-- product name read-only -->
+          <span class="prod-name">{{ prod.productId?.itemName }}</span>
+
+          <!-- editable qty and price -->
+          <span>
+            Qty: <input type="number" [(ngModel)]="prod.qty" min="1">
+          </span>
+          <span>
+            Rate: <input type="number" [(ngModel)]="prod.purchasePrice" min="0">
+          </span>
+
+          <!-- live total -->
+          <span class="prod-total">
+            Total: {{ prod.qty * prod.purchasePrice | currency:'INR' }}
+          </span>
+        </li>
+      </ul>
+    </td>
+    <td>
+      <button (click)="saveEdit(p)" class="btn primary">Save</button>
+      <button (click)="cancelEdit()" class="btn secondary">Cancel</button>
+    </td>
+  </ng-container>
+
+  <!-- Normal row view -->
+  <ng-template #viewRow>
+    <td>{{ p.invoiceDate | date:'mediumDate' }}</td>
+    <td>{{ p.supplierId?.name }}</td>
+    <td>{{ p.totalValue | currency:'INR' }}</td>
+    <td>
+      <ul class="product-list">
+        <li *ngFor="let prod of p.products">
+          <span>{{ prod.productId?.itemName }}</span>
+          <span>Qty: {{ prod.qty }}</span>
+          <span>Rate: {{ prod.purchasePrice | currency:'INR' }}</span>
+          <span>Total: {{ prod.qty * prod.purchasePrice | currency:'INR' }}</span>
+        </li>
+      </ul>
+    </td>
+    <td>
+      <button (click)="startEdit(p._id)" class="btn secondary">Edit</button>
+      <button (click)="deletePurchase(p._id)" class="btn danger">Delete</button>
+    </td>
+  </ng-template>
+</tr>
+
+  </tbody>
+</table>
+
+
+      <!-- Pagination controls -->
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
+  </div>
+</div>
+

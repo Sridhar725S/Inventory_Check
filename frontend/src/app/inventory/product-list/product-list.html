@@ -1,0 +1,163 @@
+<div class="product-wrapper">
+  <div class="header">
+    <h2>Products</h2>
+    <div class="header-buttons">
+      <button [routerLink]="['/challans']" class="btn secondary">Challans List</button>
+      <button [routerLink]="['/quotations']" class="btn secondary">Quotations List</button>
+      <button [routerLink]="['/supplier-list']" class="btn secondary">Suppliers List</button>
+      <button [routerLink]="['/wasted-items']" class="btn secondary">Wasted Items</button>
+      <button [routerLink]="['/used-items']" class="btn secondary">Used Items</button>
+      <button [routerLink]="['/invoices']" class="btn secondary">Invoices</button>
+      <button [routerLink]="['/purchases']" class="btn secondary">Purchases</button>
+      <button (click)="addProduct()" class="btn primary">Add Product</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <p>Total Products: {{ totalProducts }}</p>
+    <p>Total Value: {{ totalValue | currency: 'INR' }}</p>
+  </div>
+
+  <!-- 🔎 search -->
+  <input
+    type="text"
+    [(ngModel)]="searchText"
+    (input)="applyFilters()"
+    placeholder="Search products..."
+  />
+    <!-- 🎤 voice search button -->
+  <button type="button" (click)="startVoiceSearch()" class="btn mic-btn">
+  {{ isListening ? '🎙️ Listening...' : '🎤 Voice Search' }}
+</button>
+
+
+  <!-- 🎯 category filters -->
+  <div class="filters">
+    <label *ngFor="let cat of categories">
+      <input
+        type="checkbox"
+        [checked]="selectedCategories.includes(cat)"
+        (change)="toggleCategory(cat)"
+      />
+      {{ cat }}
+    </label>
+  </div>
+
+  <!-- ↕️ sorting -->
+  <div class="sort-controls">
+    <label>Sort by:</label>
+    <select (change)="setSort($event)">
+      <option value="">None</option>
+      <option value="qty">Quantity</option>
+      <option value="rate">Rate</option>
+      <option value="value">Value</option>
+    </select>
+    <button (click)="toggleSortOrder()">
+      Order: {{ sortOrder | uppercase }}
+    </button>
+  </div>
+
+<!-- ↔️ items per page selector -->
+<div class="pagination-settings">
+  <label for="itemsPerPage">Items per page:</label>
+  <select id="itemsPerPage" [(ngModel)]="itemsPerPage">
+    <option *ngFor="let size of pageSizes" [value]="size">
+      {{ size }}
+    </option>
+  </select>
+</div>
+
+<!-- 📑 table -->
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Min Qty</th>
+        <th>Value</th>
+        <th>Place</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+  *ngFor="let p of filteredProducts | paginate: { itemsPerPage: itemsPerPage, currentPage: page }" [ngClass]="{'low-stock': p.qty <= p.minQty}"
+   >
+  <td>
+    <ng-container *ngIf="editingId !== p._id; else editName">
+      {{ p.itemName }}
+    </ng-container>
+    <ng-template #editName>
+      <input [(ngModel)]="editCache.itemName" />
+    </ng-template>
+  </td>
+
+  <td>
+    <ng-container *ngIf="editingId !== p._id; else editCategory">
+      {{ p.category }}
+    </ng-container>
+    <ng-template #editCategory>
+      <select [(ngModel)]="editCache.category">
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+    </ng-template>
+  </td>
+
+  <td>
+    <ng-container *ngIf="editingId !== p._id; else editQty">
+      {{ p.qty }}
+    </ng-container>
+    <ng-template #editQty>
+      <input type="number" [(ngModel)]="editCache.qty" />
+    </ng-template>
+  </td>
+
+  <td>
+    <ng-container *ngIf="editingId !== p._id; else editRate">
+      {{ p.rate | currency: 'INR' }}
+    </ng-container>
+    <ng-template #editRate>
+      <input type="number" [(ngModel)]="editCache.rate" />
+    </ng-template>
+  </td>
+
+  <td>
+    <ng-container *ngIf="editingId !== p._id; else editMinQty">
+      {{ p.minQty }}
+    </ng-container>
+    <ng-template #editMinQty>
+      <input type="number" [(ngModel)]="editCache.minQty" />
+    </ng-template>
+  </td>
+
+  <td>{{ p.qty * p.rate | currency: 'INR' }}</td>
+  <td>
+  <ng-container *ngIf="editingId !== p._id">
+    {{ p.place || 'N/A'}}
+  </ng-container>
+  <ng-container *ngIf="editingId === p._id">
+    <input [(ngModel)]="editCache.place" />
+  </ng-container>
+</td>
+
+  <td>
+    <ng-container *ngIf="editingId !== p._id">
+      <button (click)="editProduct(p)" class="btn small">✏️ Edit</button>
+      <button (click)="deleteProduct(p)" class="btn small danger">🗑️ Delete</button>
+    </ng-container>
+    <ng-container *ngIf="editingId === p._id">
+      <button (click)="saveEdit(p)" class="btn small success">💾 Save</button>
+      <button (click)="cancelEdit()" class="btn small danger">❌ Cancel</button>
+    </ng-container>
+  </td>
+</tr>
+
+    </tbody>
+  </table>
+
+  <!-- 📄 pagination -->
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>

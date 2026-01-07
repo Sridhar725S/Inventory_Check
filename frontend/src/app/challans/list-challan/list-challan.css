@@ -1,0 +1,164 @@
+.challan-list {
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.primary-btn:hover {
+  background: #1e40af;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+
+button.secondary {
+  background: #f1f1f1;
+  color: #333;
+}
+
+button.secondary:hover {
+  background: #e5e5e5;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.search-input {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+}
+.per-page select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e0;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+.list-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.list-table th,
+.list-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+.list-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #374151;
+}
+.actions-col {
+  width: 220px;
+}
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.actions button {
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+.edit-btn {
+  background: #fbbf24;
+  color: #111;
+}
+.edit-btn:hover { background: #d97706; color: white; }
+.download-btn {
+  background: #34d399;
+  color: #111;
+}
+.download-btn:hover { background: #059669; color: white; }
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+.delete-btn:hover { background: #b91c1c; }
+
+/* Loading + Empty */
+.loading, .no-data {
+  text-align: center;
+  padding: 1rem;
+  color: #6b7280;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions {
+    flex-direction: column;
+  }
+  .actions button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,174 @@
+<div class="dashboard-wrapper">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Invoices</h1>
+    <div class="actions">
+      <button [routerLink]="['/challans']" class="btn secondary">Challans List</button>
+      <button [routerLink]="['/quotations']" class="btn secondary">Quotations List</button>
+      <button [routerLink]="['/supplier-list']" class="btn secondary">Suppliers List</button>
+      <button [routerLink]="['/wasted-items']" class="btn secondary">Wasted Items</button>
+      <button [routerLink]="['/used-items']" class="btn secondary">Used Items</button>
+      <button [routerLink]="['/products']" class="btn secondary">Products</button>
+      <button [routerLink]="['/purchases']" class="btn secondary">Purchases</button>
+      <button class="btn primary" (click)="addInvoice()">Add Invoice</button>
+    </div>
+  </div>
+
+   <!-- Totals -->
+  <div class="summary">
+    <p>Total Invoices: <strong>{{ totalCount }}</strong></p>
+    <p>Total Amount: <strong>{{ totalAmount | currency:'INR' }}</strong></p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input type="text" placeholder="Search by Name or College"
+      [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" />
+
+    <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+      <option value="all">All Status</option>
+      <option value="paid">Paid</option>
+      <option value="pending">Pending</option>
+      <option value="overdue">Overdue</option>
+    </select>
+
+    <!-- Date filter with Salesforce-style options -->
+    <select [(ngModel)]="selectedRange" (change)="applyFilters()">
+      <option *ngFor="let option of dateOptions" [value]="option.value">
+        {{ option.label }}
+      </option>
+    </select>
+
+    <!-- Custom range picker -->
+    <div *ngIf="selectedRange === 'custom'" class="custom-range">
+      <input type="date" [(ngModel)]="customStart" (change)="applyFilters()">
+      <span>to</span>
+      <input type="date" [(ngModel)]="customEnd" (change)="applyFilters()">
+    </div>
+
+    <select [(ngModel)]="itemsPerPage" (change)="applyFilters()">
+      <option *ngFor="let size of [5,10,20,50]" [value]="size">{{size}} per page</option>
+    </select>
+
+    <!-- Sort Dropdown -->
+<select [(ngModel)]="selectedSort" (change)="applyFilters()">
+  <option value="">Sort By</option>
+  <option *ngFor="let opt of sortOptions" [value]="opt.label">{{ opt.label }}</option>
+</select>
+
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>College</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Total Value</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let inv of filteredInvoices | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+      
+      <!-- Invoice row -->
+      <tr>
+        <td *ngIf="!inv.isEditing">{{inv.name}}</td>
+        <td *ngIf="inv.isEditing"><input [(ngModel)]="inv.name" /></td>
+
+        <td *ngIf="!inv.isEditing">{{inv.college}}</td>
+        <td *ngIf="inv.isEditing"><input [(ngModel)]="inv.college" /></td>
+
+        <td>{{inv.date | date:'mediumDate'}}</td>
+
+        <td>
+          <span *ngIf="!inv.isEditing" class="status-badge" [ngClass]="inv.statusClass">{{ inv.status | titlecase }}</span>
+          <select *ngIf="inv.isEditing" [(ngModel)]="inv.status">
+            <option value="paid">Paid</option>
+            <option value="pending">Pending</option>
+            <option value="overdue">Overdue</option>
+          </select>
+        </td>
+
+        <td>{{inv.totalInvoiceValue | currency:'INR' }}</td>
+
+        <td>
+          <button *ngIf="!inv.isEditing" class="btn small" (click)="editInvoice(inv)">Edit</button>
+          <button *ngIf="inv.isEditing" class="btn small success" (click)="saveInvoice(inv)">Save</button>
+          <button *ngIf="inv.isEditing" class="btn small" (click)="cancelEdit(inv)">Cancel</button>
+          <button class="btn small danger" (click)="deleteInvoice(inv._id)">Delete</button>
+          <button class="btn small" (click)="printInvoice(inv)">Print</button>
+          <button class="btn small secondary" (click)="inv.showProducts = !inv.showProducts">
+            {{ inv.showProducts ? 'Hide' : 'Show' }} Products
+          </button>
+          <button class="btn primary" (click)="printFormalInvoice(inv)">Formal PDF</button>
+
+        </td>
+      </tr>
+
+      <!-- Products sub-table -->
+      <tr *ngIf="inv.showProducts">
+        <td colspan="7">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of inv.products">
+                <td>{{p.itemName}}</td>
+                <td>{{p.qty}}</td>
+                <td>{{p.rate | currency:'INR'}}</td>
+                <td>{{p.qty * p.rate | currency:'INR'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+    </ng-container>
+  </tbody>
+</table>
+
+    <!-- Pagination -->
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+<!-- Shipping Address Modal -->
+<!-- invoice-list.component.html -->
+<div *ngIf="showAddressForm" class="modal">
+  <h3>Invoice Details</h3>
+<label>Invoice Date:</label>
+<input type="date" [(ngModel)]="invoiceDate" required>
+
+  <h3>Billing Address</h3>
+  <input [(ngModel)]="tempBilling.name" placeholder="Name" required>
+  <input [(ngModel)]="tempBilling.address" placeholder="Address" required>
+  <input [(ngModel)]="tempBilling.city" placeholder="City" required>
+  <input [(ngModel)]="tempBilling.state" placeholder="State" required>
+
+  <h3>Shipping Address</h3>
+  <input [(ngModel)]="tempShipping.name" placeholder="Name" required>
+  <input [(ngModel)]="tempShipping.address" placeholder="Address" required>
+  <input [(ngModel)]="tempShipping.city" placeholder="City" required>
+  <input [(ngModel)]="tempShipping.state" placeholder="State" required>
+  <label><input type="checkbox" [(ngModel)]="tempShipping.isWithinState"> Within State</label>
+
+  <button (click)="confirmAddresses()" 
+        [disabled]="!tempBilling.name || !tempBilling.address || !tempBilling.city || !tempBilling.state
+                   || !tempShipping.name || !tempShipping.address || !tempShipping.city || !tempShipping.state">
+  Generate Invoice
+</button>
+<button (click)="cancelAddressForm()">Cancel</button>
+
+</div>
+
+
+</div>

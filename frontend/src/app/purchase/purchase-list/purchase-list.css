@@ -1,0 +1,281 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f8f9fc;
+  color: #333;
+}
+
+/* Dashboard wrapper */
+.dashboard-wrapper {
+  max-width: 1300px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+  font-size: 30px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Summary section */
+.summary {
+  display: flex;
+  gap: 25px;
+  margin: 15px 0 25px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+}
+
+.summary span {
+  background: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary span:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Actions (buttons row) */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 25px rgba(106,17,203,0.3);
+}
+
+.btn.secondary {
+  background: #f9f9f9;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.btn.secondary:hover {
+  background: #eee;
+  transform: translateY(-1px);
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.filter-bar input,
+.filter-bar select {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: #6a11cb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(106,17,203,0.1);
+}
+
+/* Table container */
+.table-container {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.table-container:hover {
+  transform: translateY(-2px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+thead {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+th, td {
+  padding: 14px 18px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: rgba(106,17,203,0.05);
+}
+
+/* Products list inside table */
+.product-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.product-list li {
+  padding: 6px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-bottom: 1px dashed #eee;
+}
+
+.product-list li:last-child {
+  border-bottom: none;
+}
+
+.prod-name {
+  font-weight: 600;
+  color: #222;
+}
+
+.prod-qty,
+.prod-rate,
+.prod-total {
+  color: #555;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media(max-width: 900px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .summary {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  table {
+    min-width: unset;
+    width: 100%;
+  }
+
+  th, td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .product-list li {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+/* Pagination settings (items per page) */
+.pagination-settings {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  font-size: 14px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-settings label {
+  font-size:16px;
+  color: #333;
+}
+
+.pagination-settings select {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination-settings select:hover {
+  border-color: #007bff;
+}
+
+/* Pagination Controls */
+
+pagination-controls {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+
+pagination-controls ::ng-deep .ngx-pagination .current {
+  background: #6a11cb !important;
+  color: white !important;
+  border-radius: 6px;
+}

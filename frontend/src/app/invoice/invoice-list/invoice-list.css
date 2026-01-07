@@ -1,0 +1,223 @@
+/* 🌟 Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f5f7fb;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* 🔹 Dashboard Layout */
+.dashboard-wrapper {
+  max-width: 1300px;
+  margin: auto;
+  padding: 25px;
+}
+
+/* 🔹 Header */
+.dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* 🔹 Buttons */
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(37, 117, 252, 0.35);
+}
+
+.btn.secondary {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.btn.secondary:hover {
+  background: #f7f7f7;
+}
+
+/* 🔹 Summary Cards */
+.summary {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.summary p {
+  background: #fff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  min-width: 200px;
+  font-size: 15px;
+}
+
+.summary strong {
+  font-size: 18px;
+  color: #6a11cb;
+}
+
+/* 🔹 Filters Section */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.filters input,
+.filters select {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #6a11cb;
+  box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.15);
+}
+
+/* 🔹 Table */
+.table-container {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+thead {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+th:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: rgba(106, 17, 203, 0.05);
+}
+
+/* 🔹 Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 75px;
+  white-space: nowrap;
+}
+
+.status-badge.paid {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.status-badge.pending {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.status-badge.overdue {
+  background-color: #dc3545;
+  color: #fff;
+}
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+}
+
+.products-table th, .products-table td {
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: left;
+}
+
+
+
+
+/* 🔹 Pagination */
+
+pagination-controls {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+
+pagination-controls ::ng-deep .ngx-pagination .current {
+  background: #6a11cb !important;
+  color: white !important;
+  border-radius: 6px;
+}

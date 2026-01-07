@@ -1,0 +1,219 @@
+/* Container */
+.challan-form {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Title */
+.form-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* Groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.2s ease;
+  width: 100%;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Fieldsets */
+.form-section {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+legend {
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* Table */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.items-table th,
+.items-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.items-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #0069d9;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: #fff;
+  margin-top: 8px;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.btn-light {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.btn-light:hover {
+  background: #e2e6ea;
+}
+
+/* Actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+.btn.back {
+  background-color: #4CAF50; /* fresh green */
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none; /* in case routerLink renders as <a> */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn.back:hover {
+  background-color: #45a049; /* darker green on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn.back:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn.back:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(72, 239, 128, 0.5);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .challan-form {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .form-title {
+    font-size: 1.3rem;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  input {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .items-table th,
+  .items-table td {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  /* Make table scrollable nicely */
+  .table-responsive {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+  button {
+    font-size: 13px;
+    padding: 8px 12px;
+    width: 100%; /* stack buttons */
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+}

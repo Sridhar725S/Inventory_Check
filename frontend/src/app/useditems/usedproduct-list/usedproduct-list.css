@@ -1,0 +1,153 @@
+.used-products-container {
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.categories label {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.sort-buttons button,
+.page-size select {
+  margin-right: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #f1f5f9;
+  cursor: pointer;
+}
+.sort-buttons button:hover {
+  background: #e2e8f0;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.products-table th {
+  background: #f1f5f9;
+  text-align: left;
+  padding: 10px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.products-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.products-table tr:hover {
+  background: #f9fafb;
+}
+
+.actions-col {
+  text-align: center;
+  width: 180px;
+}
+
+.actions button {
+  margin: 0 4px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit { background: #facc15; }
+.btn-edit:hover { background: #eab308; }
+
+.btn-delete { background: #ef4444; color: white; }
+.btn-delete:hover { background: #b91c1c; }
+
+.btn-save { background: #22c55e; color: white; }
+.btn-save:hover { background: #15803d; }
+
+.btn-cancel { background: #94a3b8; color: white; }
+.btn-cancel:hover { background: #475569; }
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 🔹 Buttons */
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(37, 117, 252, 0.35);
+}
+
+.btn.secondary {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.btn.secondary:hover {
+  background: #f7f7f7;
+}
+
+/* Pagination */
+.pagination {
+  margin-top: 15px;
+  text-align: center;
+}
